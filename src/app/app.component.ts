@@ -22,5 +22,6 @@ export class AppComponent implements OnInit {
     this.signalRService.addTransferChartDataListener((message: string) => {
       this.notifications.push(message);
     });
+    
   }
 }
