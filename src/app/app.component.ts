@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { SignalrService } from './Services/signalr.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +10,17 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'RealTimeNotification';
+
+  public notifications: string[] = [];
+
+  constructor(private signalRService: SignalrService) { }
+
+  ngOnInit(): void {
+    this.signalRService.startConnection();
+    this.signalRService.addTransferChartDataListener((message: string) => {
+      this.notifications.push(message);
+    });
+  }
 }
